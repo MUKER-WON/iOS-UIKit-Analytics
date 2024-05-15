@@ -14,7 +14,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         let root = UINavigationController(
-            rootViewController: ViewController(count: "0")
+            rootViewController: ViewController(
+                name: "무커",
+                count: "0"
+            )
         )
         window = UIWindow(windowScene: scene)
         window?.rootViewController = root

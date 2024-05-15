@@ -10,10 +10,13 @@ import FirebaseAnalytics
 
 final class ViewController: UIViewController {
     
+    private let name: String
+    
     private let navigationCountLabel: UILabel = {
         var label = UILabel()
         label.text = "0"
         label.font = .systemFont(ofSize: 100)
+        label.textColor = .black
         return label
     }()
     
@@ -26,22 +29,34 @@ final class ViewController: UIViewController {
     private lazy var nextPageAction = UIAction(
         image: .strokedCheckmark,
         handler: { [weak self] _ in
-            self?.navigationController?.pushViewController(
+            guard let self else { return }
+            self.navigationController?.pushViewController(
                 ViewController(
-                    count: String(Int((self?.navigationCountLabel.text)!)! + 1)
+                    name: self.name,
+                    count: String(Int(self.navigationCountLabel.text!)! + 1)
                 ),
                 animated: true
             )
               
-            Analytics.logEvent("nextPageAction", parameters: nil)
+            Analytics.logEvent(
+                "nextPageAction",
+                parameters: ["이름": self.name]
+            )
         }
     )
     
-    init(count naviagtionCount: String) {
+    init(
+        name: String,
+        count naviagtionCount: String
+    ) {
+        self.name = name
         self.navigationCountLabel.text = naviagtionCount
         super.init(nibName: nil, bundle: nil)
         
-        Analytics.logEvent("View Init", parameters: ["init": #file])
+        Analytics.logEvent(
+            "View Init",
+            parameters: ["이름": self.name]
+        )
     }
     
     required init?(coder: NSCoder) {
